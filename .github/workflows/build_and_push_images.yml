@@ -5,7 +5,7 @@ on:
     branches:
       - main
       # Remove `container-workflow` after testing
-      - container-workflow
+      #- container-workflow
 
 jobs:
   build-and-push-image:
@@ -60,7 +60,7 @@ jobs:
       - name: Build and push images
         uses: docker/build-push-action@v3.3.0
         with:
-          context: ${{ matrix.service.context }}
+          context: ${{ matrix.service.context }}
           file: ./${{ matrix.service.name }}/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
