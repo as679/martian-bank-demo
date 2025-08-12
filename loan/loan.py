@@ -7,6 +7,7 @@ import random
 import datetime
 import os
 import grpc
+import time
 
 import logging
 from flask import Flask, request, jsonify
@@ -206,6 +207,9 @@ def configure_delay():
 def process_loan_request():
     request_data = request.json
     logging.debug(f"Request: {request_data}")
+    if configure['delay'] is not None:
+        logging.debug(f"Delaying the response by {configure['delay']} seconds")
+        time.sleep(configure['delay'])
     response = loan_generic.ProcessLoanRequest(request_data)
     return jsonify(response)
 
@@ -215,8 +219,12 @@ def get_loan_history():
     logging.debug("----------------> Request: /loan/history")
     d = request.json
     logging.debug(f"Request: {d}")
+    if configure['delay'] is not None:
+        logging.debug(f"Delaying the response by {configure['delay']} seconds")
+        time.sleep(configure['delay'])
     response = loan_generic.getLoanHistory({"email": d['email']})
     return jsonify(response)
+
 
 
 
