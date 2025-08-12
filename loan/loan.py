@@ -184,6 +184,24 @@ class LoanService(loan_pb2_grpc.LoanServiceServicer):
 
 app = Flask(__name__)
 loan_generic = LoanGeneric()
+
+configure = {}
+configure['delay'] = None
+configure['status'] = None
+
+@app.route("/configure/delay", methods=["POST"])
+def configure_delay():
+    d = request.json
+    logging.debug(f"Request: {d}")
+    if d['delay'] == "0":
+        configure['delay'] = None
+    elif d['delay'].isdigit():
+        configure['delay'] = int(d['delay'])
+    else:
+        return jsonify({"response": "Invalid delay value"})
+    return jsonify({"response": "success"})
+
+
 @app.route("/loan/request", methods=["POST"])
 def process_loan_request():
     request_data = request.json
