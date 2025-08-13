@@ -93,6 +93,7 @@ const Header = () => {
                 style={{ fontSize: "4vh", fontWeight: "lighter", color: "red" }}
               >
                 Bank
+                  <strong style={{ fontSize: "2vh" }}> Part of Dynabank </strong>
               </span>
             </Navbar.Brand>
           </LinkContainer>
