@@ -31,4 +31,5 @@ __pycache__
 docker-hub.sh
 dockers_images_update.sh
 
+venv
 # martianbank/templates/configmap.yaml
