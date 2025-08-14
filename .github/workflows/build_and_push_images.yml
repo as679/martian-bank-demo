@@ -35,6 +35,8 @@ jobs:
             context: .
           - name: performance_locust
             context: ./performance_locust
+          - name: kubectl
+            context: ./kubectl
 
     steps:
       - name: Checkout repository
