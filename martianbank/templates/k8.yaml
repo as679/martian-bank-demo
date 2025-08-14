@@ -16,7 +16,7 @@ spec:
         spec:
             containers:
                 - name: ui
-                  image: ghcr.io/cisco-open/martian-bank-demo-ui
+                  image: {{ .Values.image.repository }}/martian-bank-demo-ui
                   env: 
                     {{- if .Values.nginx.enabled }}
                       - name: VITE_USERS_URL
@@ -79,7 +79,7 @@ spec:
         spec:
             containers:
                 - name: dashboard
-                  image: ghcr.io/cisco-open/martian-bank-demo-dashboard
+                  image: {{ .Values.image.repository }}/martian-bank-demo-dashboard
                   env:
                       - name: SERVICE_PROTOCOL
                         value: {{.Values.SERVICE_PROTOCOL}}
@@ -132,7 +132,7 @@ spec:
         spec:
             containers:
                 - name: customer-auth
-                  image: ghcr.io/cisco-open/martian-bank-demo-customer-auth
+                  image: {{ .Values.image.repository }}/martian-bank-demo-customer-auth
                   env:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
@@ -180,7 +180,7 @@ spec:
         spec:
             containers:
                 - name: atm-locator
-                  image: ghcr.io/cisco-open/martian-bank-demo-atm-locator
+                  image: {{ .Values.image.repository }}/martian-bank-demo-atm-locator
                   env:
                     {{- if not .Values.mongodb.enabled }}
                       - name: DATABASE_HOST
@@ -230,7 +230,7 @@ spec:
         spec:
             containers:
                 - name: nginx
-                  image: ghcr.io/cisco-open/martian-bank-demo-nginx 
+                  image: {{ .Values.image.repository }}/martian-bank-demo-nginx
 ---
 apiVersion: v1
 kind: Service
@@ -268,7 +268,7 @@ spec:
         spec:
             containers:
                 - name: locust
-                  image: ghcr.io/cisco-open/martian-bank-demo-locust
+                  image: {{ .Values.image.repository }}/martian-bank-demo-performance_locust
                   env:
                     - name: VITE_USERS_URL
                       value: http://customer-auth:8000/api/users
@@ -280,6 +280,10 @@ spec:
                       value: http://dashboard:5000/transaction
                     - name: VITE_LOAN_URL
                       value: http://dashboard:5000/loan
+                  {{- if .Values.locust.forever }}
+                  command: [ "/bin/bash" ]
+                  args: [ "locust.sh", "forever"]
+                {{ end }}
 ---
 apiVersion: v1
 kind: Service

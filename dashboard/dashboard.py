@@ -565,6 +565,10 @@ def loan_history():
         logging.debug(
             f'=========================> this is  {f"{host_ip_port}/loan/history"}'
         )
+        # loan_history
+        # import requests as flask_client_requests
+        # host_ip_port = "loan:50053"
+        # req={"email":"ford.prefect@tetrate.io"}
         response = flask_client_requests.post(
             f"http://{host_ip_port}/loan/history", json=req
         )
